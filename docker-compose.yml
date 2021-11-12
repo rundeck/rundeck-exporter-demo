@@ -1,0 +1,70 @@
+version: '3'
+services:
+    rundeck:
+        container_name: rundeck
+        build:
+          context: rundeck
+          args:
+            RUNDECK_IMAGE: ${RUNDECK_IMAGE}
+        links:
+          - mysql
+        environment:
+            RUNDECK_GRAILS_URL: http://localhost:4440
+            RUNDECK_DATABASE_DRIVER: org.mariadb.jdbc.Driver
+            RUNDECK_DATABASE_USERNAME: rundeck
+            RUNDECK_DATABASE_PASSWORD: rundeck
+            RUNDECK_DATABASE_URL: jdbc:mariadb://mysql/rundeck?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+            RUNDECK_SERVER_ADDRESS: 0.0.0.0
+            RUNDECK_TOKENS_FILE: /home/rundeck/etc/tokens.properties
+        ports:
+          - 4440:4440
+        healthcheck:
+          test: "curl -f http://localhost:4440"
+          interval: 1s
+          retries: 120
+    mysql:
+        container_name: mysql
+        image: mysql:8
+        expose:
+          - 3306
+        cap_add:
+          - SYS_NICE
+        environment:
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=rundeck
+          - MYSQL_USER=rundeck
+          - MYSQL_PASSWORD=rundeck
+    rundeck_exporter:
+        container_name: rundeck_exporter
+        build:
+          context: rundeck_exporter
+        depends_on:
+          rundeck:
+            condition: service_healthy
+        environment:
+          RUNDECK_EXPORTER_HOST: 0.0.0.0
+          RUNDECK_EXPORTER_DEBUG: "true"
+          RUNDECK_URL: http://rundeck:4440
+          RUNDECK_TOKEN: rundecktoken
+          RUNDECK_PROJECTS_EXECUTIONS: "true"
+          RUNDECK_CPU_STATS: "true"
+          RUNDECK_MEMORY_STATS: "true"
+        ports:
+          - 9620:9620
+    prometheus:
+        container_name: prometheus
+        build:
+          context: prometheus
+          args:
+            PROMETHEUS_IMAGE: ${PROMETHEUS_IMAGE}
+        ports:
+          - 9090:9090
+    grafana:
+        container_name: grafana
+        build:
+          context: grafana
+          args:
+            GRAFANA_IMAGE: ${GRAFANA_IMAGE}
+        ports:
+          - 3000:3000
+
