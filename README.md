@@ -21,7 +21,7 @@ This is a demo environment that shows how to monitor a [Rundeck](https://github.
 
 ## Running the environment
 
-  1. Just do `docker compose up`.
+  1. Just do `docker-compose up`.
 
 ## Testing the environment
 
