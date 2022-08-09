@@ -2,8 +2,6 @@
 
 This is a demo environment that shows how to monitor a [Rundeck](https://github.com/rundeck/rundeck/) instance using [Rundeck Exporter](https://github.com/phsmith/rundeck_exporter) (thanks to @phsmith!), [Prometheus](https://github.com/prometheus/prometheus), and [Grafana](https://github.com/grafana/grafana) with [this](https://github.com/phsmith/rundeck_exporter/blob/main/examples/grafana/Rundeck-Dashboard.json) dashboard.
 
-![regular](https://user-images.githubusercontent.com/51376003/141488197-585e8507-497e-4c9e-9b3b-97ca8473482a.jpg)
-
 ## Prerequisites
 
 1. Docker.
@@ -12,7 +10,7 @@ This is a demo environment that shows how to monitor a [Rundeck](https://github.
 
 ## Getting the source
 
-`git clone https://github.com/MegaDrive68k/rundeck-exporter-demo`
+`git clone https://github.com/rundeck/rundeck-exporter-demo`
 
 ## Building the environment
 
