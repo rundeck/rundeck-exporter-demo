@@ -16,6 +16,7 @@ services:
             RUNDECK_DATABASE_URL: jdbc:mariadb://mysql/rundeck?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
             RUNDECK_SERVER_ADDRESS: 0.0.0.0
             RUNDECK_TOKENS_FILE: /home/rundeck/etc/tokens.properties
+            RUNDECK_METRICS_ENABLED: true
         ports:
           - 4440:4440
         healthcheck:
@@ -67,4 +68,3 @@ services:
             GRAFANA_IMAGE: ${GRAFANA_IMAGE}
         ports:
           - 3000:3000
-
